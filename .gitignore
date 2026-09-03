@@ -1,0 +1,66 @@
+# GameCube Sonic Adventure 2 Project - Git Ignore
+
+# Original ROM archives (preserved but not versioned)
+ROMS/*.rvz
+ROMS/*.iso
+ROMS/*.ciso
+ROMS/*.wbfs
+
+# Extracted/decompressed assets
+*.iso
+*.ciso
+*.wbfs
+extracted/
+decompressed/
+
+# Ghidra projects (derived databases, do not commit)
+analysis/ghidra-projects/*/
+.gradle/
+
+# Analysis artifacts and dumps
+*.bin
+*.elf
+*.dol
+*.dump
+*.trace
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+
+# Node modules and build artifacts
+web/node_modules/
+web/dist/
+web/.next/
+web/build/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Runtime outputs and logs
+*.log
+logs/
+*.tmp
+temp/
+
+# Temporary files
+*.bak
+*.backup
+.~*
+
+# ROM validation and inspection outputs (can be regenerated)
+# Uncomment to preserve inspection reports:
+# !inspection_reports/

@@ -1,0 +1,22 @@
+{
+  "name": "sonic-adventure-2-web",
+  "version": "1.0.0",
+  "description": "Sonic Adventure 2 - Battle web player via Dolphin emulator",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": ["sonic", "adventure", "gamecube", "emulator", "dolphin"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

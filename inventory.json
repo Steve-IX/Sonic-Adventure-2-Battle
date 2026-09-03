@@ -1,0 +1,43 @@
+{
+  "project": "Sonic Adventure 2 - Battle (USA)",
+  "platform": "Nintendo GameCube",
+  "processor": "PowerPC",
+  "format": "RVZ (WBFS compressed ISO)",
+  "rom_path": "ROMS/Sonic Adventure 2 - Battle (USA) (En,Ja,Fr,De,Es).rvz",
+  "file_size_bytes": 1151284868,
+  "sha256": "38a959996c90405887a895931b17254d5915fdcb65c7561bff7877cf44c86ed9",
+  "validation": {
+    "game": "Sonic Adventure 2 - Battle (USA)",
+    "timestamp": "2026-09-03T21:45:18.842555",
+    "validation_steps": [
+      {
+        "step": "File existence",
+        "status": "OK",
+        "size_bytes": 1151284868
+      },
+      {
+        "step": "Header validation",
+        "status": "OK",
+        "note": "RVZ format detected; requires decompression for full ISO inspection"
+      }
+    ],
+    "metadata": {
+      "file_path": "ROMS/Sonic Adventure 2 - Battle (USA) (En,Ja,Fr,De,Es).rvz",
+      "file_size_bytes": 1151284868,
+      "file_size_gb": 1.07,
+      "format": "RVZ (compressed)",
+      "game_id": null,
+      "game_title": null,
+      "region": null,
+      "validated": false,
+      "note": "RVZ is WBFS-compressed; use 'wit' or Dolphin to extract ISO"
+    }
+  },
+  "notes": [
+    "Original RVZ dump preserved for reference",
+    "Do not modify original archive",
+    "RVZ extraction requires 'wit' utility or Dolphin",
+    "PowerPC architecture supported by Ghidra with SleighDecompiler",
+    "Web deployment via Dolphin emulator WebAssembly build"
+  ]
+}

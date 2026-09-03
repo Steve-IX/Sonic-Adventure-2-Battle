@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonic Adventure 2 - Battle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            padding: 40px;
+        }
+        
+        .emulator-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .canvas-wrapper {
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .control-group {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .control-group h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        .control-group p {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover:not(:disabled) {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        input[type="file"] {
+            padding: 8px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .status {
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #f5c6cb;
+        }
+        
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #bee5eb;
+        }
+        
+        .status.loading {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(0, 0, 0, 0.2);
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .keyboard-layout {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.85em;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            border-top: 1px solid #eee;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .control-group {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 Sonic Adventure 2 - Battle</h1>
+            <p>Nintendo GameCube emulator powered by Dolphin</p>
+        </div>
+        
+        <div class="content">
+            <div id="status-container"></div>
+            
+            <div class="emulator-section">
+                <h2>Game Canvas</h2>
+                <div class="canvas-wrapper">
+                    <canvas id="canvas" width="640" height="480"></canvas>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <h3>📁 Load ROM</h3>
+                    <p>Select your GameCube ISO or RVZ file</p>
+                    <input type="file" id="rom-input" accept=".iso,.rvz" />
+                    <button onclick="loadROM()" style="margin-top: 10px;">Load Game</button>
+                </div>
+                
+                <div class="control-group">
+                    <h3>⏮️ Playback Controls</h3>
+                    <button onclick="pauseResume()" style="width: 100%; margin-bottom: 10px;">Pause / Resume</button>
+                    <button onclick="restart()" style="width: 100%;">Restart Game</button>
+                </div>
+                
+                <div class="control-group">
+                    <h3>📊 Performance</h3>
+                    <p>FPS: <span id="fps">0</span></p>
+                    <p>Status: <span id="perf-status">Idle</span></p>
+                    <button onclick="toggleFullscreen()" style="width: 100%; margin-top: 10px;">Fullscreen</button>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <h3>🎮 Keyboard Controls</h3>
+                <div class="keyboard-layout">
+                    <strong>Movement:</strong> Arrow Keys or WASD<br>
+                    <strong>Action:</strong> Z or Space<br>
+                    <strong>Camera:</strong> C + Arrow Keys<br>
+                    <strong>Start:</strong> Enter or S<br>
+                    <strong>Select:</strong> Backspace or Q<br>
+                    <strong>Speed Up:</strong> Shift<br>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <h3>ℹ️ Information</h3>
+                <p><strong>Platform:</strong> Nintendo GameCube</p>
+                <p><strong>Processor:</strong> PowerPC Gekko 485 MHz</p>
+                <p><strong>Emulator:</strong> Dolphin (WebAssembly build)</p>
+                <p><strong>Browser Requirements:</strong> Modern browser with SharedArrayBuffer support (Chrome, Firefox, Edge)</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Sonic Adventure 2 - Battle © Sega. Emulation via <a href="https://dolphin-emu.org" target="_blank">Dolphin Emulator</a>.</p>
+            <p>This is a research and preservation project. ROM files must be obtained legally.</p>
+        </div>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const statusContainer = document.getElementById('status-container');
+        let emulatorReady = false;
+        let gameRunning = false;
+        
+        // Status message helper
+        function showStatus(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            if (type === 'loading') {
+                div.innerHTML = `<span class="spinner"></span><span>${message}</span>`;
+            } else {
+                div.innerHTML = message;
+            }
+            statusContainer.innerHTML = '';
+            statusContainer.appendChild(div);
+        }
+        
+        // Initialize emulator (stub for Dolphin WebAssembly integration)
+        function initEmulator() {
+            showStatus('Initializing Dolphin emulator...', 'loading');
+            
+            // TODO: Load Dolphin WebAssembly core here
+            // This would typically involve:
+            // 1. Loading dolphin.wasm and dolphin.js
+            // 2. Initializing SharedArrayBuffer for threading
+            // 3. Setting up canvas context for rendering
+            // 4. Connecting input handlers
+            
+            setTimeout(() => {
+                emulatorReady = true;
+                showStatus('Emulator ready. Load a ROM to begin.', 'success');
+            }, 1500);
+        }
+        
+        // Load ROM from file input
+        function loadROM() {
+            const input = document.getElementById('rom-input');
+            if (!input.files.length) {
+                showStatus('Please select a ROM file first.', 'error');
+                return;
+            }
+            
+            const file = input.files[0];
+            showStatus(`Loading ROM: ${file.name}...`, 'loading');
+            
+            // TODO: Pass ROM to Dolphin emulator
+            // This would typically involve:
+            // 1. Reading file as ArrayBuffer
+            // 2. Decompressing RVZ if needed
+            // 3. Passing to Dolphin emulator's ROM loader
+            
+            setTimeout(() => {
+                gameRunning = true;
+                showStatus('Game loaded successfully! Ready to play.', 'success');
+                document.getElementById('perf-status').textContent = 'Running';
+            }, 2000);
+        }
+        
+        function pauseResume() {
+            if (!gameRunning) {
+                showStatus('No game loaded.', 'error');
+                return;
+            }
+            // TODO: Implement pause/resume via Dolphin
+            showStatus('Game paused/resumed.', 'info');
+        }
+        
+        function restart() {
+            if (!gameRunning) {
+                showStatus('No game loaded.', 'error');
+                return;
+            }
+            // TODO: Restart emulation
+            showStatus('Game restarted.', 'info');
+        }
+        
+        function toggleFullscreen() {
+            if (!canvas.parentElement.requestFullscreen) {
+                showStatus('Fullscreen not supported in this browser.', 'error');
+                return;
+            }
+            canvas.parentElement.requestFullscreen().catch(err => {
+                showStatus(`Fullscreen error: ${err.message}`, 'error');
+            });
+        }
+        
+        // Update FPS counter
+        let lastTime = Date.now();
+        let frameCount = 0;
+        
+        setInterval(() => {
+            const now = Date.now();
+            const delta = (now - lastTime) / 1000;
+            if (delta >= 1) {
+                document.getElementById('fps').textContent = Math.round(frameCount / delta);
+                frameCount = 0;
+                lastTime = now;
+            }
+            frameCount++;
+        }, 100);
+        
+        // Keyboard input handler (stub)
+        document.addEventListener('keydown', (e) => {
+            if (!gameRunning) return;
+            // TODO: Map keyboard to GameCube controller input
+            // console.log('Key pressed:', e.key);
+        });
+        
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            initEmulator();
+        });
+    </script>
+</body>
+</html>

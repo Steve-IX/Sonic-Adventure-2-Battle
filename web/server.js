@@ -14,13 +14,16 @@ app.use((req, res, next) => {
 });
 
 // Serve static assets with proper CORP header
-app.use(express.static('public', {
+app.use(express.static(path.join(__dirname, 'public'), {
   setHeaders: (res, path) => {
     if (path.endsWith('.wasm') || path.endsWith('.js') || path.endsWith('.html')) {
       res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
     }
   }
 }));
+
+// Browsers request this automatically even when no custom icon is configured.
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 // ROM streaming endpoint (supports range requests for chunked loading)
 app.get('/api/rom/:filename', (req, res) => {

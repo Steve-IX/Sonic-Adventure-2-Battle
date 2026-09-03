@@ -22,5 +22,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 
 # Start server with proper COOP/COEP headers
 ENV NODE_ENV=production
-ENV ROM_PATH=/app/ROMS/Sonic Adventure 2 - Battle (USA) (En,Ja,Fr,De,Es).rvz
 CMD ["node", "server.js"]

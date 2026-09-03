@@ -18,5 +18,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3000/health', (response) => { if (response.statusCode !== 200) process.exit(1) })"
 
 ENV NODE_ENV=production
-ENV ROM_PATH=/app/ROMS/Sonic Adventure 2 - Battle (USA) (En,Ja,Fr,De,Es).rvz
 CMD ["node", "server.js"]

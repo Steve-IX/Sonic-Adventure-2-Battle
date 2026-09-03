@@ -4,7 +4,7 @@
 
 This repository does not contain a Dolphin WebAssembly core. The browser correctly keeps Play disabled until a compatible core is installed under `web/public/emulator/` and the manifest is changed from `unavailable` to `ready`.
 
-A native Dolphin release is not automatically a browser-compatible WebAssembly runtime. A real browser build must provide the JavaScript/WASM adapter used by the page and must be legally redistributable under its upstream license and notices.
+A native Dolphin release is not automatically a browser-compatible WebAssembly runtime. A real browser build must provide the JavaScript/WASM adapter used by the page and must be legally redistributable under its upstream license and notices. The official `dolphin-emu/dolphin` source currently has no supported Emscripten/browser target or published browser artifact.
 
 ## Required Files
 
@@ -49,6 +49,10 @@ npm test
 ```
 
 The verifier must pass before deployment. The frontend will still reject the core if `dolphin.js` does not create `window.DolphinWasm`.
+
+Do not satisfy this gate by renaming a native Dolphin executable, downloading an unproven binary, or changing the manifest to `ready` while the adapter is absent. A custom port requires Dolphin source changes, Emscripten, browser graphics/input/audio integration, RVZ support, and controlled runtime validation. This is a core-engineering project, not a file installation step.
+
+As of 2026-09-03, the official repository is `https://github.com/dolphin-emu/dolphin`; its source tree does not publish `dolphin.js`, `dolphin.wasm`, or `dolphin.worker.js`. The current unavailability is therefore verified, not a missing-download oversight.
 
 ## Acceptance Tests
 

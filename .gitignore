@@ -17,6 +17,9 @@ decompressed/
 analysis/ghidra-projects/*/
 .gradle/
 
+# Locally pinned upstream source and build toolchains
+toolchain/
+
 # Analysis artifacts and dumps
 *.bin
 *.elf

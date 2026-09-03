@@ -52,7 +52,9 @@ The verifier must pass before deployment. The frontend will still reject the cor
 
 Do not satisfy this gate by renaming a native Dolphin executable, downloading an unproven binary, or changing the manifest to `ready` while the adapter is absent. A custom port requires Dolphin source changes, Emscripten, browser graphics/input/audio integration, RVZ support, and controlled runtime validation. This is a core-engineering project, not a file installation step.
 
-As of 2026-09-03, the official repository is `https://github.com/dolphin-emu/dolphin`; its source tree does not publish `dolphin.js`, `dolphin.wasm`, or `dolphin.worker.js`. The current unavailability is therefore verified, not a missing-download oversight.
+As of 2026-09-03, the official repository is `https://github.com/dolphin-emu/dolphin`; the inspected source snapshot is commit `ca8c6ee45e419296226e4da8c2b2adaaf54e0299`. Its source tree does not publish `dolphin.js`, `dolphin.wasm`, or `dolphin.worker.js`, and it has no Emscripten/browser target. The current unavailability is therefore verified, not a missing-download oversight.
+
+The source snapshot is kept in the ignored local path `toolchain/dolphin-source/` for porting work. No source or generated build output is copied into the public web bundle until a browser target exists and passes the acceptance tests below.
 
 ## Acceptance Tests
 

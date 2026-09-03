@@ -2,8 +2,9 @@
   "status": "unavailable",
   "system": "dolphin-gamecube",
   "format": "rvz",
-  "version": null,
-  "sourceCommit": null,
+  "version": "source-pinned",
+  "sourceRepository": "https://github.com/dolphin-emu/dolphin",
+  "sourceCommit": "ca8c6ee45e419296226e4da8c2b2adaaf54e0299",
   "assets": {
     "dolphin.js": { "status": "required", "sha256": null },
     "dolphin.wasm": { "status": "required", "sha256": null },

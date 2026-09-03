@@ -224,6 +224,64 @@
         .status.error { background: #45252b; color: #ffc0b1; border-left-color: #e06c38; }
         .status.info { background: #12364a; color: #a8d8eb; border-left-color: #4baed0; }
         .status.loading { background: #45351f; color: #ffd08b; border-left-color: #e0a23d; }
+
+        .brand-row, .section-heading, .stage-meta, .card-title, .footer, .button-row, .mini-stat, .profile-list span { display: flex; align-items: center; }
+        .brand-row { gap: 12px; margin-bottom: 28px; }
+        .brand-mark { display: grid; place-items: center; width: 42px; height: 42px; background: #e06c38; color: white; font-size: .72rem; font-weight: 800; border-radius: 50%; box-shadow: 0 0 0 5px rgba(224,108,56,.18); }
+        .eyebrow, .section-kicker, .header-status, .live-pill, .stage-meta small, .mini-stat span, .profile-list small, .footer { font-size: .68rem; letter-spacing: .14em; font-weight: 700; }
+        .eyebrow { color: #c3d5dd; }
+        .eyebrow i, .live-pill i { width: 7px; height: 7px; display: inline-block; margin: 0 4px; background: #4cc9a6; border-radius: 50%; box-shadow: 0 0 0 4px rgba(76,201,166,.14); }
+        .header-status { margin-left: auto; color: #9fb8c5; }
+        .header h1 { line-height: .95; text-transform: uppercase; font-weight: 800; }
+        .header h1 em { color: #f18b4f; font-style: normal; }
+        .lede { color: #c7d6dc; }
+        .player-grid { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(270px, .75fr); gap: 24px; }
+        .section-heading { justify-content: space-between; margin-bottom: 14px; }
+        .section-kicker { display: block; color: #e06c38; margin-bottom: 7px; }
+        .section-heading h2, .side-panel h2 { margin: 0; color: #f5f8f9; font-size: 1.45rem; }
+        .live-pill { color: #9ce2ce; white-space: nowrap; }
+        .canvas-wrapper { position: relative; aspect-ratio: 16/10; }
+        .canvas-overlay { position: absolute; inset: 0; display: grid; place-content: center; gap: 10px; text-align: center; color: #6f8998; font-size: .7rem; letter-spacing: .18em; pointer-events: none; }
+        .canvas-overlay b { color: #375264; font-size: 2.5rem; font-weight: 300; }
+        .stage-meta { justify-content: flex-end; gap: 24px; padding-top: 12px; color: #e9f1f3; }
+        .stage-meta span:first-child { margin-right: auto; }
+        .stage-meta b { color: #f18b4f; font-size: .82rem; }
+        .stage-meta small { color: #7894a3; margin-left: 5px; }
+        .ghost-button { background: transparent; border: 1px solid #38576b; padding: 9px 12px; color: #d4e3e8; font-size: .72rem; }
+        .ghost-button:hover:not(:disabled) { background: #1a3a4e; box-shadow: none; transform: none; }
+        .side-panel { background: #0d1e2d; border: 1px solid #2c4b61; border-radius: 6px; padding: 25px; }
+        .side-panel h2 { font-size: 1.65rem; margin-bottom: 10px; }
+        .panel-copy { color: #9fb7c4; font-size: .9rem; line-height: 1.55; margin-bottom: 22px; }
+        .file-drop { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 142px; padding: 20px; border: 1px dashed #527184; border-radius: 5px; text-align: center; cursor: pointer; transition: border-color .2s, background .2s; }
+        .file-drop:hover { border-color: #e06c38; background: #142e40; }
+        .file-drop b { color: #ecf5f7; font-size: .9rem; }
+        .file-drop small { margin-top: 7px; color: #7f9baa; }
+        .upload-icon { display: grid; place-items: center; width: 28px; height: 28px; margin-bottom: 10px; border: 1px solid #527184; border-radius: 50%; color: #f18b4f; font-size: 1.1rem; }
+        .file-drop input { display: none; }
+        .primary-button { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding: 14px 16px; }
+        .primary-button b { font-size: 1.3rem; }
+        .divider { height: 1px; background: #28445b; margin: 23px 0 17px; }
+        .mini-stat { justify-content: space-between; padding: 7px 0; }
+        .mini-stat span { color: #7894a3; }
+        .mini-stat b { color: #d6e5e9; font-size: .72rem; }
+        .lower-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .lower-grid .control-group { border-top: 0; border-left: 3px solid #e06c38; }
+        .card-title { justify-content: space-between; margin-bottom: 16px; }
+        .card-title .section-kicker { margin: 0; }
+        .card-title h3 { margin: 0; font-size: 1.05rem; }
+        .button-row { gap: 10px; }
+        .button-row button { flex: 1; padding: 11px 12px; font-size: .8rem; }
+        .keyboard-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 11px 18px; margin-top: 18px; padding: 14px; }
+        .keyboard-layout span { display: flex; flex-direction: column; gap: 3px; }
+        .keyboard-layout b { color: #f18b4f; font-size: .65rem; letter-spacing: .12em; }
+        .keyboard-layout span { font-size: .7rem; }
+        .profile-list { display: grid; gap: 14px; }
+        .profile-list span { justify-content: space-between; gap: 10px; }
+        .profile-list small { color: #7894a3; }
+        .profile-list b { color: #d6e5e9; font-size: .78rem; text-align: right; }
+        .footer { justify-content: space-between; gap: 18px; padding: 18px 32px; }
+        .footer b { color: #e06c38; }
+        @media (prefers-reduced-motion: no-preference) { .container { animation: rise .65s ease-out both; } @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } } }
         
         @media (max-width: 768px) {
             .header h1 {
@@ -237,74 +295,56 @@
             .control-group {
                 padding: 15px;
             }
+            .header { padding: 26px 22px; }
+            .content { gap: 22px; }
+            .player-grid, .lower-grid { grid-template-columns: 1fr; }
+            .header-status { display: none; }
+            .stage-meta { gap: 12px; }
+            .stage-meta small, .ghost-button span { display: none; }
+            .footer { align-items: flex-start; flex-direction: column; padding: 18px 22px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🎮 Sonic Adventure 2 - Battle</h1>
-            <p>Nintendo GameCube emulator powered by Dolphin</p>
-        </div>
-        
+    <main class="container">
+        <header class="header">
+            <div class="brand-row"><span class="brand-mark">SA2</span><span class="eyebrow">GAMECUBE EDITION <i></i> WEB PLAYER</span><span class="header-status">● PRESERVATION BUILD</span></div>
+            <h1>Sonic Adventure 2<br><em>Battle</em></h1>
+            <p class="lede">A high-speed return to the ultimate rivalry.</p>
+        </header>
+
         <div class="content">
             <div id="status-container"></div>
-            
-            <div class="emulator-section">
-                <h2>Game Canvas</h2>
-                <div class="canvas-wrapper">
-                    <canvas id="canvas" width="640" height="480"></canvas>
+            <section class="player-grid">
+                <div class="emulator-section">
+                    <div class="section-heading"><div><span class="section-kicker">01 / PLAY SESSION</span><h2>Command the stage</h2></div><span class="live-pill"><i></i> LOCAL INSTANCE</span></div>
+                    <div class="canvas-wrapper">
+                        <canvas id="canvas" width="640" height="480"></canvas>
+                        <div class="canvas-overlay"><span>READY WHEN YOU ARE</span><b>+</b></div>
+                    </div>
+                    <div class="stage-meta"><span><b id="perf-status">IDLE</b> <small>SESSION STATUS</small></span><span><b id="fps">0</b> <small>FPS</small></span><button class="ghost-button" onclick="toggleFullscreen()" title="Enter fullscreen">⛶ <span>FULLSCREEN</span></button></div>
                 </div>
-            </div>
-            
-            <div class="controls">
-                <div class="control-group">
-                    <h3>📁 Load ROM</h3>
-                    <p>Select your GameCube ISO or RVZ file</p>
-                    <input type="file" id="rom-input" accept=".iso,.rvz" />
-                    <button onclick="loadROM()" style="margin-top: 10px;">Load Game</button>
-                </div>
-                
-                <div class="control-group">
-                    <h3>⏮️ Playback Controls</h3>
-                    <button onclick="pauseResume()" style="width: 100%; margin-bottom: 10px;">Pause / Resume</button>
-                    <button onclick="restart()" style="width: 100%;">Restart Game</button>
-                </div>
-                
-                <div class="control-group">
-                    <h3>📊 Performance</h3>
-                    <p>FPS: <span id="fps">0</span></p>
-                    <p>Status: <span id="perf-status">Idle</span></p>
-                    <button onclick="toggleFullscreen()" style="width: 100%; margin-top: 10px;">Fullscreen</button>
-                </div>
-            </div>
-            
-            <div class="control-group">
-                <h3>🎮 Keyboard Controls</h3>
-                <div class="keyboard-layout">
-                    <strong>Movement:</strong> Arrow Keys or WASD<br>
-                    <strong>Action:</strong> Z or Space<br>
-                    <strong>Camera:</strong> C + Arrow Keys<br>
-                    <strong>Start:</strong> Enter or S<br>
-                    <strong>Select:</strong> Backspace or Q<br>
-                    <strong>Speed Up:</strong> Shift<br>
-                </div>
-            </div>
-            
-            <div class="control-group">
-                <h3>ℹ️ Information</h3>
-                <p><strong>Platform:</strong> Nintendo GameCube</p>
-                <p><strong>Processor:</strong> PowerPC Gekko 485 MHz</p>
-                <p><strong>Emulator:</strong> Dolphin (WebAssembly build)</p>
-                <p><strong>Browser Requirements:</strong> Modern browser with SharedArrayBuffer support (Chrome, Firefox, Edge)</p>
-            </div>
+
+                <aside class="side-panel">
+                    <span class="section-kicker">02 / PLAYER DECK</span>
+                    <h2>Launch the game</h2>
+                    <p class="panel-copy">Load your legally owned game image to begin a local emulation session.</p>
+                    <label class="file-drop" for="rom-input"><span class="upload-icon">↑</span><b>Choose game image</b><small>ISO or RVZ · stays on your device</small><input type="file" id="rom-input" accept=".iso,.rvz" /></label>
+                    <button class="primary-button" onclick="loadROM()"><span>LOAD GAME</span><b>→</b></button>
+                    <div class="divider"></div>
+                    <div class="mini-stat"><span>EMULATOR CORE</span><b>DOLPHIN / WASM</b></div>
+                    <div class="mini-stat"><span>VIDEO OUTPUT</span><b>640 × 480</b></div>
+                </aside>
+            </section>
+
+            <section class="lower-grid">
+                <div class="control-group playback-card"><div class="card-title"><span class="section-kicker">03 / CONTROLS</span><h3>Playback</h3></div><div class="button-row"><button onclick="pauseResume()">Ⅱ <span>PAUSE</span></button><button onclick="restart()">↻ <span>RESTART</span></button></div><div class="keyboard-layout"><span><b>MOVE</b> WASD / ARROWS</span><span><b>ACTION</b> Z / SPACE</span><span><b>START</b> ENTER / S</span><span><b>SPEED</b> SHIFT</span></div></div>
+                <div class="control-group info-card"><div class="card-title"><span class="section-kicker">04 / PLATFORM</span><h3>Game profile</h3></div><div class="profile-list"><span><small>CONSOLE</small><b>Nintendo GameCube</b></span><span><small>CPU</small><b>PowerPC Gekko · 485 MHz</b></span><span><small>DISPLAY</small><b>Modern browser + WebAssembly</b></span></div></div>
+            </section>
         </div>
-        
-        <div class="footer">
-            <p>Sonic Adventure 2 - Battle © Sega. Emulation via <a href="https://dolphin-emu.org" target="_blank">Dolphin Emulator</a>.</p>
-            <p>This is a research and preservation project. ROM files must be obtained legally.</p>
-        </div>
-    </div>
+
+        <footer class="footer"><span>SONIC ADVENTURE 2: BATTLE <b>·</b> WEB PLAYER</span><span>ROM DATA IS USER-SUPPLIED <b>·</b> <a href="https://dolphin-emu.org" target="_blank" rel="noreferrer">DOLPHIN EMULATOR ↗</a></span></footer>
+    </main>
     
     <script>
         const canvas = document.getElementById('canvas');

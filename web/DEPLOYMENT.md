@@ -32,7 +32,7 @@ This guide covers deploying the Sonic Adventure 2 web player to Railway, followi
 
 1. **Railway Account**: https://railway.app/
 2. **GitHub Repository**: Push this project to GitHub
-3. **Dolphin WebAssembly Build**: Pre-built in `web/public/dolphin/`
+3. **Dolphin WebAssembly Build**: A pinned, distributable build installed in `web/public/emulator/`
 4. **Node.js 18+**: For local testing
 5. **Docker**: For local container testing
 
@@ -49,10 +49,10 @@ npm install
 
 ```bash
 # Create ROM directory in web/
-mkdir -p roms
+mkdir -p ../ROMS
 
 # Place ISO file (or RVZ) - will be extracted by Dolphin on first load
-cp /path/to/sonic-adventure-2.iso roms/
+cp "/path/to/Sonic Adventure 2 - Battle (USA) (En,Ja,Fr,De,Es).rvz" ../ROMS/
 ```
 
 ### 3. Run Development Server
@@ -67,8 +67,7 @@ npm start
 
 ```bash
 # Open http://localhost:3000 in a modern browser
-# Upload or select ROM file
-# Click "Load Game"
+# The page checks /api/rom/metadata and enables Play only when the image and core are ready.
 # Test keyboard controls
 ```
 
@@ -82,7 +81,7 @@ docker build -t sonic-adventure-2:latest .
 
 # Run container
 docker run -p 3000:3000 \
-  -v $(pwd)/roms:/app/roms \
+   -v $(pwd)/../ROMS:/app/ROMS \
   sonic-adventure-2:latest
 
 # Test at http://localhost:3000
@@ -131,7 +130,7 @@ In Railway Dashboard:
 If hosting the ROM on Railway:
 
 1. **Storage Tab** → **Add Storage**
-2. **Mount Path**: `/app/roms`
+2. **Mount Path**: `/app/ROMS`
 3. **Size**: At least 5GB (for uncompressed ISO)
 
 ### Step 5: Configure Domain
@@ -165,12 +164,12 @@ If headers are missing, Dolphin WASM threading will fail.
 
 ## ROM Handling Strategies
 
-### Strategy 1: User-Supplied ROM (Recommended)
+### Strategy 1: Authorized deployment image
 
-- No ROM stored on server
-- User uploads ISO/RVZ via web interface
-- Browser handles decompression/loading
-- Compliant with legal distribution
+- Mount the authorized RVZ through `ROM_PATH` or `/app/ROMS`.
+- The browser requests `/api/rom/metadata` on load.
+- The browser fetches `/api/rom` after Play is clicked.
+- The image must not be committed or publicly redistributed without rights.
 
 **Implementation**:
 ```javascript
@@ -190,7 +189,7 @@ document.getElementById('rom-input').addEventListener('change', (e) => {
 
 **Implementation**:
 ```javascript
-fetch('/api/rom/sonic-adventure-2.iso', {
+fetch('/api/rom', {
   headers: { 'Range': 'bytes=0-1048575' }
 }).then(response => response.arrayBuffer())
   .then(data => dolphin.loadROMChunk(data));

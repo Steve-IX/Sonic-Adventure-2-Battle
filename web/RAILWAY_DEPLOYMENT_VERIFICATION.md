@@ -32,7 +32,7 @@
 ### Server Configuration
 - [x] Express.js listening on `process.env.PORT || 3000`
 - [x] Static assets served from `public/` directory
-- [x] ROM streaming endpoint at `/api/rom/:filename`
+- [x] ROM streaming endpoint at `/api/rom` with legacy filename validation
 - [x] Health check endpoint at `/health`
 - [x] MIME types correct for `.wasm`, `.js`, `.html`
 
@@ -42,7 +42,7 @@
 - [x] Dependencies installed: `npm ci --only=production`
 - [x] Port exposed: `3000`
 - [x] Health check configured (30s interval, 5s timeout)
-- [x] ROM directory created: `/app/roms`
+- [x] ROM mount point created: `/app/ROMS`
 
 ### Railway Platform Configuration
 - [x] Builder: `dockerfile` (auto-detects Dockerfile)
@@ -196,7 +196,7 @@ curl -I https://your-deployment.up.railway.app/
 
 - **CORS**: Properly restricted to same-origin
 - **Headers**: COOP/COEP prevent cross-origin attacks
-- **ROM**: Not stored on server (user-supplied model)
+- **ROM**: Served only when an authorized RVZ is mounted at `ROM_PATH`
 - **Dependencies**: Minimal (only Express 4.18.2)
 - **Alpine**: Reduces attack surface vs full Node images
 
@@ -204,15 +204,15 @@ curl -I https://your-deployment.up.railway.app/
 
 ## 📝 ROM Deployment Options
 
-### Option 1: User-Supplied ROM (Recommended)
+### Option 1: Authorized mounted RVZ
 - User uploads ROM via web interface
 - No proprietary content on server
 - Compliant with legal distribution
 
 ### Option 2: Server Storage
-- Mount volume: `/app/roms`
+- Mount volume: `/app/ROMS`
 - Store ISO there
-- Serve via `/api/rom/:filename`
+- Serve via `/api/rom`
 
 ### Option 3: Remote URL
 - Stream from external storage

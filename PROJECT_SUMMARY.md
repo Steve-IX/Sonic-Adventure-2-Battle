@@ -121,8 +121,9 @@ GameCube/SonicAdventure2/
 ### Phase 2: Web Deployment (After Initial Analysis)
 
 1. **Integrate Dolphin WebAssembly**
-   - Add Dolphin WASM core to `web/public/dolphin/`
-   - Update `index.html` with emulator initialization
+   - Install a pinned, distributable Dolphin WASM build under `web/public/emulator/`
+   - Set its manifest status to `ready` only after asset hashes and the adapter ABI are verified
+   - The current deployment intentionally reports the core as unavailable
 
 2. **Test Locally**
    ```bash
@@ -274,7 +275,7 @@ All three share:
 - Comprehensive reverse-engineering documentation
 - Containerized web deployment on Railway
 - COOP/COEP headers for browser compatibility
-- User-supplied ROM model (no proprietary assets distributed)
+- Authorized hosting model: the server accepts an explicitly mounted RVZ through `ROM_PATH`; the original dump remains outside source control
 
 ---
 

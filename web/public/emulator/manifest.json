@@ -1,0 +1,13 @@
+{
+  "status": "unavailable",
+  "system": "dolphin-gamecube",
+  "format": "rvz",
+  "version": null,
+  "sourceCommit": null,
+  "assets": {
+    "dolphin.js": { "status": "required", "sha256": null },
+    "dolphin.wasm": { "status": "required", "sha256": null },
+    "dolphin.worker.js": { "status": "required", "sha256": null }
+  },
+  "note": "A pinned, distributable Dolphin WebAssembly build must be installed before browser emulation can be enabled."
+}

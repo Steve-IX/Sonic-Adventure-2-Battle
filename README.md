@@ -1,8 +1,8 @@
 # 🎮 Sonic Adventure 2: Battle - GameCube Reverse Engineering & Web Emulation
 
-**A comprehensive reverse-engineering and browser-based emulation project for Sonic Adventure 2: Battle on Nintendo GameCube.**
+**A comprehensive reverse-engineering and browser-deployment project for Sonic Adventure 2: Battle on Nintendo GameCube.**
 
-This repository combines static binary analysis, runtime debugging, and modern web technologies to bring the classic Sega GameCube adventure online. From disassembling the PowerPC executable to streaming playable emulation in your browser—this project documents the complete journey of understanding and deploying a beloved console game.
+This repository combines static binary analysis, runtime debugging, and modern web infrastructure to document the path from a validated GameCube dump to a browser player. The deployment layer is prepared for an authorized server-side image, but browser gameplay remains disabled until a real Dolphin WebAssembly core is installed and verified.
 
 ## Vision
 
@@ -74,11 +74,10 @@ This project follows a disciplined reverse-engineering methodology:
 The final step brings Sonic Adventure 2 to modern web browsers:
 
 **Emulator Integration**
-- Dolphin emulator compiled to WebAssembly (near-native performance)
-- PowerPC CPU emulation via JIT compilation
-- GPU operations translated from OpenGL to WebGL
-- Audio managed through Web Audio API
-- Input handling supports keyboard and gamepad
+- Dolphin WebAssembly core integration point is defined but not bundled
+- The frontend checks a pinned emulator manifest before enabling Play
+- RVZ delivery is streamed through the server only after deployment authorization
+- Input, video, audio, and save-state behavior depend on the installed Dolphin adapter
 
 **Server Infrastructure**
 - Express.js backend for asset serving and ROM streaming
@@ -172,12 +171,13 @@ See [web/DEPLOYMENT.md](web/DEPLOYMENT.md) for comprehensive deployment instruct
 
 ### For End Users
 
-Once deployed, players can:
+Once deployed with an authorized image and a verified Dolphin WebAssembly build, players can:
 1. Open the web player in a modern browser
-2. Load a local copy of Sonic Adventure 2 ROM (ISO format)
-3. Experience the game with full emulation
-4. Use keyboard/gamepad controls
-5. Save and load game state (when implemented)
+2. Wait for the server image and emulator status checks
+3. Click Play when the deployment reports both as ready
+4. Use keyboard or gamepad controls exposed by the installed adapter
+
+The current repository does not include a Dolphin WebAssembly core. It therefore reports an honest unavailable state rather than presenting a fake playable emulator.
 
 ## System Requirements
 
@@ -315,7 +315,7 @@ This project adheres to strict principles:
 **Preservation**: Original ROM archive preserved untouched and unmodified
 **Research**: All analysis conducted on copies; original remains safe
 **Distribution**: Only legal components distributed (tools, documentation, UI)
-**User Control**: ROM remains user-supplied; no copyrighted content hosted
+**Authorized Hosting**: The server supports an explicitly mounted authorized RVZ through `ROM_PATH`; the original dump remains outside source control
 **Reproducibility**: All work documented and open to independent verification
 
 ## Technology Stack

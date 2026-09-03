@@ -318,7 +318,7 @@
             <section class="player-grid">
                 <div class="emulator-section">
                     <div class="section-heading"><div><span class="section-kicker">01 / PLAY SESSION</span><h2>Command the stage</h2></div><span class="live-pill"><i></i> LOCAL INSTANCE</span></div>
-                    <div class="canvas-wrapper">
+                    <div class="canvas-wrapper" id="game-stage">
                         <canvas id="canvas" width="640" height="480"></canvas>
                         <div class="canvas-overlay"><span>READY WHEN YOU ARE</span><b>+</b></div>
                     </div>
@@ -328,11 +328,11 @@
                 <aside class="side-panel">
                     <span class="section-kicker">02 / PLAYER DECK</span>
                     <h2>Launch the game</h2>
-                    <p class="panel-copy">Load your legally owned game image to begin a local emulation session.</p>
-                    <label class="file-drop" for="rom-input"><span class="upload-icon">↑</span><b>Choose game image</b><small>ISO or RVZ · stays on your device</small><input type="file" id="rom-input" accept=".iso,.rvz" /></label>
-                    <button class="primary-button" onclick="loadROM()"><span>LOAD GAME</span><b>→</b></button>
+                    <p class="panel-copy">The authorized RVZ image is prepared by the server. Start the browser session when the emulator core is available.</p>
+                    <button id="play-button" class="primary-button" onclick="loadROM()" disabled><span>PLAY NOW</span><b>→</b></button>
+                    <progress id="rom-progress" max="100" value="0" aria-label="Game image loading progress"></progress>
                     <div class="divider"></div>
-                    <div class="mini-stat"><span>EMULATOR CORE</span><b>DOLPHIN / WASM</b></div>
+                    <div class="mini-stat"><span>EMULATOR CORE</span><b id="core-status">DOLPHIN / WASM · CHECKING</b></div>
                     <div class="mini-stat"><span>VIDEO OUTPUT</span><b>640 × 480</b></div>
                 </aside>
             </section>
@@ -343,12 +343,16 @@
             </section>
         </div>
 
-        <footer class="footer"><span>SONIC ADVENTURE 2: BATTLE <b>·</b> WEB PLAYER</span><span>ROM DATA IS USER-SUPPLIED <b>·</b> <a href="https://dolphin-emu.org" target="_blank" rel="noreferrer">DOLPHIN EMULATOR ↗</a></span></footer>
+        <footer class="footer"><span>SONIC ADVENTURE 2: BATTLE <b>·</b> WEB PLAYER</span><span>AUTHORIZED IMAGE <b>·</b> <a href="https://dolphin-emu.org" target="_blank" rel="noreferrer">DOLPHIN EMULATOR ↗</a></span></footer>
     </main>
     
     <script>
         const canvas = document.getElementById('canvas');
         const statusContainer = document.getElementById('status-container');
+        const romProgress = document.getElementById('rom-progress');
+        const playButton = document.getElementById('play-button');
+        const romFilename = 'Sonic Adventure 2 - Battle (USA) (En,Ja,Fr,De,Es).rvz';
+        let romReady = false;
         let emulatorReady = false;
         let gameRunning = false;
         
@@ -359,33 +363,53 @@
             if (type === 'loading') {
                 div.innerHTML = `<span class="spinner"></span><span>${message}</span>`;
             } else {
-                div.innerHTML = message;
+                    div.textContent = message;
             }
             statusContainer.innerHTML = '';
             statusContainer.appendChild(div);
         }
         
-        // Initialize emulator (stub for Dolphin WebAssembly integration)
-        function initEmulator() {
-            showStatus('Initializing Dolphin emulator...', 'loading');
-            
-            // The emulator core is intentionally not bundled with this repository.
-            // This would typically involve:
-            // 1. Loading dolphin.wasm and dolphin.js
-            // 2. Initializing SharedArrayBuffer for threading
-            // 3. Setting up canvas context for rendering
-            // 4. Connecting input handlers
-            
-            setTimeout(() => {
-                showStatus('Emulator core is not installed on this deployment yet.', 'error');
-            }, 500);
+        function setProgress(value) {
+            romProgress.value = value;
+            romProgress.hidden = value >= 100 || value === 0;
+        }
+
+        async function inspectDeployment() {
+            try {
+                const response = await fetch('/api/rom/metadata', { cache: 'no-store' });
+                if (!response.ok) throw new Error('Authorized RVZ image is unavailable on this deployment.');
+                const metadata = await response.json();
+                romReady = metadata.available === true;
+                playButton.disabled = !romReady || !emulatorReady;
+                showStatus(romReady ? `Authorized game image ready: ${metadata.bytes.toLocaleString()} bytes.` : 'Authorized game image is unavailable.', romReady ? 'success' : 'error');
+            } catch (error) {
+                showStatus(error.message, 'error');
+            }
+        }
+
+        // The real Dolphin WASM bundle must be installed before this can boot.
+        async function initEmulator() {
+            try {
+                const response = await fetch('/emulator/manifest.json', { cache: 'no-store' });
+                const manifest = await response.json();
+                if (manifest.status !== 'ready') throw new Error('Dolphin WebAssembly core is not installed on this deployment yet.');
+                if (manifest.assets['dolphin.js']) {
+                    await new Promise((resolve, reject) => { const script = document.createElement('script'); script.src = '/emulator/dolphin.js'; script.onload = resolve; script.onerror = reject; document.head.appendChild(script); });
+                }
+                emulatorReady = Boolean(window.DolphinWasm);
+                if (!emulatorReady) throw new Error('Dolphin WebAssembly core loaded without the required adapter.');
+                document.getElementById('core-status').textContent = 'DOLPHIN / WASM · READY';
+                playButton.disabled = !romReady;
+            } catch (error) {
+                document.getElementById('core-status').textContent = 'DOLPHIN / WASM · NOT INSTALLED';
+                showStatus(error.message, 'error');
+            }
         }
         
         // Load ROM from file input
-        function loadROM() {
-            const input = document.getElementById('rom-input');
-            if (!input.files.length) {
-                showStatus('Please select a ROM file first.', 'error');
+        async function loadROM() {
+            if (!romReady) {
+                showStatus('The authorized game image is not available.', 'error');
                 return;
             }
 
@@ -394,20 +418,33 @@
                 return;
             }
             
-            const file = input.files[0];
-            showStatus(`Loading ROM: ${file.name}...`, 'loading');
-            
-            // TODO: Pass ROM to Dolphin emulator
-            // This would typically involve:
-            // 1. Reading file as ArrayBuffer
-            // 2. Decompressing RVZ if needed
-            // 3. Passing to Dolphin emulator's ROM loader
-            
-            setTimeout(() => {
-                gameRunning = true;
-                showStatus('Game loaded successfully! Ready to play.', 'success');
-                document.getElementById('perf-status').textContent = 'Running';
-            }, 2000);
+            showStatus(`Loading ${romFilename}...`, 'loading');
+            setProgress(15);
+            try {
+            const response = await fetch('/api/rom', { cache: 'no-store' });
+            if (!response.ok) throw new Error('The authorized RVZ image could not be loaded.');
+            const reader = response.body.getReader();
+            const total = Number(response.headers.get('content-length')) || 0;
+            const chunks = [];
+            let loaded = 0;
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                chunks.push(value);
+                loaded += value.byteLength;
+                setProgress(total ? Math.round(loaded / total * 100) : 0);
+            }
+            const image = new File(chunks, romFilename, { type: 'application/octet-stream' });
+            if (typeof window.DolphinWasm.loadROM !== 'function') throw new Error('Dolphin WebAssembly core does not expose loadROM yet.');
+            await window.DolphinWasm.loadROM(image, canvas);
+            gameRunning = true;
+            showStatus('Game loaded successfully. Ready to play.', 'success');
+            document.getElementById('perf-status').textContent = 'RUNNING';
+            setProgress(100);
+            } catch (error) {
+                showStatus(error.message, 'error');
+                setProgress(0);
+            }
         }
         
         function pauseResume() {
@@ -415,8 +452,9 @@
                 showStatus('No game loaded.', 'error');
                 return;
             }
-            // TODO: Implement pause/resume via Dolphin
-            showStatus('Game paused/resumed.', 'info');
+            if (typeof window.DolphinWasm?.pause !== 'function') { showStatus('Pause is unavailable until the Dolphin adapter is installed.', 'error'); return; }
+            window.DolphinWasm.pause();
+            showStatus('Game pause toggled.', 'info');
         }
         
         function restart() {
@@ -424,7 +462,8 @@
                 showStatus('No game loaded.', 'error');
                 return;
             }
-            // TODO: Restart emulation
+            if (typeof window.DolphinWasm?.reset !== 'function') { showStatus('Restart is unavailable until the Dolphin adapter is installed.', 'error'); return; }
+            window.DolphinWasm.reset();
             showStatus('Game restarted.', 'info');
         }
         
@@ -453,16 +492,15 @@
             frameCount++;
         }, 100);
         
-        // Keyboard input handler (stub)
         document.addEventListener('keydown', (e) => {
             if (!gameRunning) return;
-            // TODO: Map keyboard to GameCube controller input
-            // console.log('Key pressed:', e.key);
+            window.DolphinWasm?.input?.({ type: 'keydown', key: e.key });
         });
         
         // Initialize on page load
-        window.addEventListener('load', () => {
+        window.addEventListener('load', async () => {
             initEmulator();
+            await inspectDeployment();
         });
     </script>
 </body>

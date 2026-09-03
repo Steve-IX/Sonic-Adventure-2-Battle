@@ -4,14 +4,14 @@ WORKDIR /app
 
 # Install dependencies
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm install --omit=dev
 
 # Copy application
 COPY server.js .
 COPY public/ ./public/
 
-# Create directory for ROMs (user will provide at runtime)
-RUN mkdir -p roms
+# Create the mount point for the authorized ROM at runtime.
+RUN mkdir -p /app/ROMS
 
 # Expose port
 EXPOSE 3000
@@ -22,4 +22,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 
 # Start server with proper COOP/COEP headers
 ENV NODE_ENV=production
+ENV ROM_PATH=/app/ROMS/Sonic Adventure 2 - Battle (USA) (En,Ja,Fr,De,Es).rvz
 CMD ["node", "server.js"]

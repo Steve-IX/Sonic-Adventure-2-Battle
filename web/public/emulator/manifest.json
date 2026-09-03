@@ -9,5 +9,6 @@
     "dolphin.wasm": { "status": "required", "sha256": null },
     "dolphin.worker.js": { "status": "required", "sha256": null }
   },
+  "buildGuide": "/DOLPHIN_WASM_BUILD.md",
   "note": "A pinned, distributable Dolphin WebAssembly build must be installed before browser emulation can be enabled."
 }

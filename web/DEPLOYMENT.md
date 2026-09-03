@@ -1,6 +1,6 @@
 # Sonic Adventure 2 - Railway Web Deployment Guide
 
-This guide covers deploying the Sonic Adventure 2 web player to Railway, following the proven pattern from the Pokémon Black and Street Fighter projects.
+This guide covers deploying the Sonic Adventure 2 web player to Railway.
 
 ## Architecture Overview
 
@@ -32,7 +32,7 @@ This guide covers deploying the Sonic Adventure 2 web player to Railway, followi
 
 1. **Railway Account**: https://railway.app/
 2. **GitHub Repository**: Push this project to GitHub
-3. **Dolphin WebAssembly Build**: A pinned, distributable build installed in `web/public/emulator/`
+3. **Dolphin WebAssembly Build**: A pinned, distributable build installed in `web/public/emulator/`; the current repository intentionally has the manifest but not the core binaries
 4. **Node.js 18+**: For local testing
 5. **Docker**: For local container testing
 
@@ -125,13 +125,14 @@ In Railway Dashboard:
    - `NODE_ENV`: `production`
    - `PORT`: `3000` (Railway sets automatically)
 
-### Step 4: Configure Volumes (Optional)
+### Step 4: Configure Volumes
 
 If hosting the ROM on Railway:
 
 1. **Storage Tab** → **Add Storage**
 2. **Mount Path**: `/app/ROMS`
-3. **Size**: At least 5GB (for uncompressed ISO)
+3. **Size**: At least 2GB for the RVZ image and runtime headroom
+4. Set `ROM_PATH` to `/app/ROMS/Sonic Adventure 2 - Battle (USA) (En,Ja,Fr,De,Es).rvz`
 
 ### Step 5: Configure Domain
 
@@ -164,27 +165,19 @@ If headers are missing, Dolphin WASM threading will fail.
 
 ## ROM Handling Strategies
 
-### Strategy 1: Authorized deployment image
+### Strategy 1: Authorized mounted RVZ
 
 - Mount the authorized RVZ through `ROM_PATH` or `/app/ROMS`.
 - The browser requests `/api/rom/metadata` on load.
 - The browser fetches `/api/rom` after Play is clicked.
 - The image must not be committed or publicly redistributed without rights.
 
-**Implementation**:
-```javascript
-// In public/index.html
-document.getElementById('rom-input').addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  // Pass to Dolphin emulator
-  dolphin.loadROM(file);
-});
-```
+The frontend checks `/api/rom/metadata` on load and fetches `/api/rom` only after Play is enabled. No file picker is required.
 
 ### Strategy 2: Server-Side Streaming
 
 - Server stores ROM (mounted volume)
-- Browser requests chunks via `/api/rom/:filename`
+- Browser requests chunks via `/api/rom`
 - `server.js` handles range requests
 
 **Implementation**:

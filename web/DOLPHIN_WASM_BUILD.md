@@ -6,6 +6,12 @@ This repository does not contain a Dolphin WebAssembly core. The browser correct
 
 A native Dolphin release is not automatically a browser-compatible WebAssembly runtime. A real browser build must provide the JavaScript/WASM adapter used by the page and must be legally redistributable under its upstream license and notices. The official `dolphin-emu/dolphin` source currently has no supported Emscripten/browser target or published browser artifact.
 
+### Port progress
+
+- Emscripten 6.0.9 is installed in the local ignored toolchain and successfully compiles a minimal WASM module.
+- The pinned Dolphin source reaches its platform guard, then rejects the 32-bit Emscripten target because the generic JIT-less path is explicitly unsupported on Windows.
+- The next source change must introduce a dedicated Emscripten platform target instead of forcing Dolphin's desktop Windows or generic configuration.
+
 ## Required Files
 
 ```text

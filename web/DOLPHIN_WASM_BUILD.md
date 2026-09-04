@@ -11,6 +11,7 @@ A native Dolphin release is not automatically a browser-compatible WebAssembly r
 - Emscripten 6.0.9 is installed in the local ignored toolchain and successfully compiles a minimal WASM module.
 - The pinned Dolphin source reaches its platform guard, then rejects the 32-bit Emscripten target because the generic JIT-less path is explicitly unsupported on Windows.
 - The next source change must introduce a dedicated Emscripten platform target instead of forcing Dolphin's desktop Windows or generic configuration.
+- Local port experiments have advanced the complete-submodule Emscripten configure past Threads/CURL and into bundled compression compilation; these edits remain in the ignored `toolchain/dolphin-source/` checkout until they form a complete, reviewable port.
 
 ## Required Files
 
